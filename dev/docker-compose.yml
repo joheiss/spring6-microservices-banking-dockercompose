@@ -46,12 +46,12 @@ services:
       service: network-deploy-service
 
   configserver:
-    image: "joheiss/sb3-configserver:v2"
+    image: "joheiss/sb3-configserver:v3"
     container_name: "jo_configserver"
     ports:
       - "8071:8071"
     depends_on:
-      rabbit: 
+      rabbit:
         condition: service_healthy
     healthcheck:
       test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
@@ -64,7 +64,7 @@ services:
       service: microservice-base-config
 
   accounts:
-    image: "joheiss/sb3-accounts:v2"
+    image: "joheiss/sb3-accounts:v3"
     container_name: "jo_accounts"
     ports:
       - "8091:8091"
@@ -81,7 +81,7 @@ services:
       service: microservice-business-services-config
 
   loans:
-    image: "joheiss/sb3-loans:v2"
+    image: "joheiss/sb3-loans:v3"
     container_name: "jo_loans"
     ports:
       - "8092:8092"
@@ -98,7 +98,7 @@ services:
       service: microservice-business-services-config
 
   cards:
-    image: "joheiss/sb3-cards:v2"
+    image: "joheiss/sb3-cards:v3"
     container_name: "jo_cards"
     ports:
       - "8093:8093"
@@ -117,4 +117,3 @@ services:
 networks:
   jovisco:
     driver: "bridge"
-
