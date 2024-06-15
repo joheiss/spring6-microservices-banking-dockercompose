@@ -81,7 +81,7 @@ services:
             SPRING_APPLICATION_NAME: eurekaserver
         extends:
             file: common-config.yml
-            service: microservice-base-config
+            service: microservice-eureka-config
 
     accounts:
         image: 'joheiss/sb3-accounts:v4'
