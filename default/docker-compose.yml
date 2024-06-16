@@ -84,7 +84,7 @@ services:
             service: microservice-eureka-config
 
     accounts:
-        image: 'joheiss/sb3-accounts:v4'
+        image: 'joheiss/sb3-accounts:native'
         container_name: 'jo_accounts'
         ports:
             - '8091:8091'
