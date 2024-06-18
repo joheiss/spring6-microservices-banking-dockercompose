@@ -154,7 +154,7 @@ services:
             service: microservice-business-services-config
 
     gatewayserver:
-      image: "joheiss/sb3-gatewayserver:v5"
+      image: "joheiss/sb3-gatewayserver:v5.1"
       container_name: jo_gatewayserver
       ports:
         - "8072:8072"
