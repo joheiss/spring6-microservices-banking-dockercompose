@@ -22,7 +22,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1000m
+          memory: 700m
     environment:
       SPRING_RABBITMQ_HOST: rabbit
 
