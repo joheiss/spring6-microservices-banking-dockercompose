@@ -84,7 +84,7 @@ services:
             service: microservice-eureka-config
 
     accounts:
-        image: 'joheiss/sb3-accounts:v5'
+        image: 'joheiss/sb3-accounts:v5.1'
         container_name: 'jo_accounts'
         ports:
             - '8091:8091'
@@ -107,7 +107,7 @@ services:
             service: microservice-business-services-config
 
     loans:
-        image: 'joheiss/sb3-loans:v5'
+        image: 'joheiss/sb3-loans:v5.1'
         container_name: 'jo_loans'
         ports:
             - '8092:8092'
@@ -131,7 +131,7 @@ services:
             service: microservice-business-services-config
 
     cards:
-        image: 'joheiss/sb3-cards:v5'
+        image: 'joheiss/sb3-cards:v5.1'
         container_name: 'jo_cards'
         ports:
             - '8093:8093'
