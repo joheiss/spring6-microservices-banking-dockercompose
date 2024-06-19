@@ -64,7 +64,7 @@ services:
             service: microservice-base-config
 
     eurekaserver:
-        image: 'joheiss/sb3-eurekaserver:v4'
+        image: 'joheiss/sb3-eurekaserver:v5'
         container_name: 'jo_eurekaserver'
         ports:
             - '8070:8070'
@@ -84,10 +84,16 @@ services:
             service: microservice-eureka-config
 
     accounts:
-        image: 'joheiss/sb3-accounts:v4'
+        image: 'joheiss/sb3-accounts:v5.1'
         container_name: 'jo_accounts'
         ports:
             - '8091:8091'
+        healthcheck:
+          test: "curl --fail --silent localhost:8091/actuator/health/readiness | grep UP || exit 1"
+          interval: 10s
+          timeout: 5s
+          retries: 10
+          start_period: 10s
         depends_on:
             eurekaserver:
                 condition: service_healthy
@@ -101,10 +107,17 @@ services:
             service: microservice-business-services-config
 
     loans:
-        image: 'joheiss/sb3-loans:v4'
+        image: 'joheiss/sb3-loans:v5.1'
         container_name: 'jo_loans'
         ports:
             - '8092:8092'
+        healthcheck:
+          test: "curl --fail --silent localhost:8092/actuator/health/readiness | grep UP || exit 1"
+          interval: 10s
+          timeout: 5s
+          retries: 10
+          start_period: 10s
+
         depends_on:
             eurekaserver:
                 condition: service_healthy
@@ -118,10 +131,16 @@ services:
             service: microservice-business-services-config
 
     cards:
-        image: 'joheiss/sb3-cards:v4'
+        image: 'joheiss/sb3-cards:v5.1'
         container_name: 'jo_cards'
         ports:
             - '8093:8093'
+        healthcheck:
+          test: "curl --fail --silent localhost:8093/actuator/health/readiness | grep UP || exit 1"
+          interval: 10s
+          timeout: 5s
+          retries: 10
+          start_period: 10s
         depends_on:
             eurekaserver:
                 condition: service_healthy
@@ -133,6 +152,24 @@ services:
         extends:
             file: common-config.yml
             service: microservice-business-services-config
+
+    gatewayserver:
+      image: "joheiss/sb3-gatewayserver:v5.1"
+      container_name: jo_gatewayserver
+      ports:
+        - "8072:8072"
+      depends_on:
+        accounts:
+          condition: service_healthy
+        loans:
+          condition: service_healthy
+        cards:
+          condition: service_healthy
+      environment:
+        SPRING_APPLICATION_NAME: gatewayserver
+      extends:
+        file: common-config.yml
+        service: microservice-business-services-config
 
 networks:
     jovisco:
