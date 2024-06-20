@@ -84,7 +84,7 @@ services:
             service: microservice-eureka-config
 
     accounts:
-        image: 'joheiss/sb3-accounts:v5.1'
+        image: 'joheiss/sb3-accounts:v6'
         container_name: 'jo_accounts'
         ports:
             - '8091:8091'
@@ -154,7 +154,7 @@ services:
             service: microservice-business-services-config
 
     gatewayserver:
-      image: "joheiss/sb3-gatewayserver:v5.1"
+      image: "joheiss/sb3-gatewayserver:v6"
       container_name: jo_gatewayserver
       ports:
         - "8072:8072"
