@@ -153,6 +153,15 @@ services:
             file: common-config.yml
             service: microservice-business-services-config
 
+    redis:
+      image: redis
+      container_name: jo_redis
+      ports:
+        - "6379:6379"
+      extends:
+        file: common-config.yml
+        service: network-deploy-service
+
     gatewayserver:
       image: "joheiss/sb3-gatewayserver:v6"
       container_name: jo_gatewayserver
