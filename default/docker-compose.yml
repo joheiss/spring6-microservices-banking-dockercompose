@@ -158,6 +158,10 @@ services:
     container_name: jo_redis
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      timeout: 10s
+      retries: 10
     extends:
       file: common-config.yml
       service: network-deploy-service
@@ -173,6 +177,8 @@ services:
       loans:
         condition: service_healthy
       cards:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: gatewayserver
