@@ -45,66 +45,66 @@ services:
       file: common-config.yml
       service: network-deploy-service
 
-  configserver:
-    image: "joheiss/sb3-configserver:v4"
-    container_name: "jo_configserver"
-    ports:
-      - "8071:8071"
-    depends_on:
-      rabbit:
-        condition: service_healthy
-    healthcheck:
-      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
-      timeout: 10s
-      retries: 10
-      start_period: 10s
-    extends:
-      file: common-config.yml
-      service: microservice-base-config
+    configserver:
+        image: 'joheiss/sb3-configserver:v6'
+        container_name: 'jo_configserver'
+        ports:
+            - '8071:8071'
+        depends_on:
+            rabbit:
+                condition: service_healthy
+        healthcheck:
+            test: 'curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1'
+            interval: 10s
+            timeout: 10s
+            retries: 10
+            start_period: 10s
+        extends:
+            file: common-config.yml
+            service: microservice-base-config
 
-  eurekaserver:
-    image: "joheiss/sb3-eurekaserver:v5"
-    container_name: "jo_eurekaserver"
-    ports:
-      - "8070:8070"
-    depends_on:
-      configserver:
-        condition: service_healthy
-    healthcheck:
-      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
-      timeout: 10s
-      retries: 10
-      start_period: 10s
-    environment:
-      SPRING_APPLICATION_NAME: eurekaserver
-    extends:
-      file: common-config.yml
-      service: microservice-eureka-config
+    eurekaserver:
+        image: 'joheiss/sb3-eurekaserver:v6'
+        container_name: 'jo_eurekaserver'
+        ports:
+            - '8070:8070'
+        depends_on:
+            configserver:
+                condition: service_healthy
+        healthcheck:
+            test: 'curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1'
+            interval: 10s
+            timeout: 10s
+            retries: 10
+            start_period: 10s
+        environment:
+            SPRING_APPLICATION_NAME: eurekaserver
+        extends:
+            file: common-config.yml
+            service: microservice-eureka-config
 
-  accounts:
-    image: "joheiss/sb3-accounts:v6"
-    container_name: "jo_accounts"
-    ports:
-      - "8091:8091"
-    healthcheck:
-      test: "curl --fail --silent localhost:8091/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    depends_on:
-      eurekaserver:
-        condition: service_healthy
-      accountsdb:
-        condition: service_healthy
-    environment:
-      SPRING_APPLICATION_NAME: accounts
-      SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
-    extends:
-      file: common-config.yml
-      service: microservice-business-services-config
+    accounts:
+        image: 'joheiss/sb3-accounts:v6'
+        container_name: 'jo_accounts'
+        ports:
+            - '8091:8091'
+        healthcheck:
+          test: "curl --fail --silent localhost:8091/actuator/health/readiness | grep UP || exit 1"
+          interval: 10s
+          timeout: 5s
+          retries: 10
+          start_period: 10s
+        depends_on:
+            eurekaserver:
+                condition: service_healthy
+            accountsdb:
+                condition: service_healthy
+        environment:
+            SPRING_APPLICATION_NAME: accounts
+            SPRING_DATASOURCE_URL: 'jdbc:mysql://accountsdb:3306/accountsdb'
+        extends:
+            file: common-config.yml
+            service: microservice-business-services-config
 
   loans:
     image: "joheiss/sb3-loans:v6"
@@ -131,7 +131,7 @@ services:
       service: microservice-business-services-config
 
   cards:
-    image: "joheiss/sb3-cards:v5.1"
+    image: "joheiss/sb3-cards:v6"
     container_name: "jo_cards"
     ports:
       - "8093:8093"
