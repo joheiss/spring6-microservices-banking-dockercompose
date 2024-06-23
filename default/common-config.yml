@@ -25,6 +25,9 @@ services:
           memory: 700m
     environment:
       SPRING_RABBITMQ_HOST: rabbit
+      JAVA_TOOL_OPTIONS: "-javaagent:/app/libs/opentelemetry-javaagent-2.5.0.jar"
+      OTEL_EXPORTER_OLTP_ENDPOINT: http://tempo:4317
+      OTEL_METRICS_EXPORTER: none
 
   microservice-eureka-config:
     extends:
