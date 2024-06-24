@@ -277,6 +277,7 @@ services:
             start_period: 10s
         environment:
             OTEL_SERVICE_NAME: configserver
+            OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: grpc  
         extends:
             file: common-config.yml
             service: microservice-base-config
@@ -298,6 +299,7 @@ services:
         environment:
             SPRING_APPLICATION_NAME: eurekaserver
             OTEL_SERVICE_NAME: eurekaserver
+            OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: grpc  
         extends:
             file: common-config.yml
             service: microservice-eureka-config
