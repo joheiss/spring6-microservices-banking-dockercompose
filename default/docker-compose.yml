@@ -1,5 +1,18 @@
 services:
 
+    keycloak:
+        image: quay.io/keycloak/keycloak:24.0.1
+        container_name: keycloak
+        ports:
+            - "7080:8080"
+        environment:
+            KEYCLOAK_ADMIN: "admin"
+            KEYCLOAK_ADMIN_PASSWORD: "admin"
+        command: "start-dev"
+        extends:
+            file: common-config.yml
+            service: network-deploy-service
+
     read:
         image: grafana/loki:3.0.0
         command: "-config.file=/etc/loki/config.yaml -target=read"
@@ -273,7 +286,7 @@ services:
             test: 'curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1'
             interval: 10s
             timeout: 10s
-            retries: 10
+            retries: 20
             start_period: 10s
         environment:
             OTEL_SERVICE_NAME: configserver
@@ -293,7 +306,7 @@ services:
             test: 'curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1'
             interval: 10s
             timeout: 10s
-            retries: 10
+            retries: 20
             start_period: 10s
         environment:
             SPRING_APPLICATION_NAME: eurekaserver
@@ -311,7 +324,7 @@ services:
           test: "curl --fail --silent localhost:8091/actuator/health/readiness | grep UP || exit 1"
           interval: 10s
           timeout: 5s
-          retries: 10
+          retries: 20
           start_period: 10s
         depends_on:
             eurekaserver:
@@ -335,7 +348,7 @@ services:
             test: "curl --fail --silent localhost:8092/actuator/health/readiness | grep UP || exit 1"
             interval: 10s
             timeout: 5s
-            retries: 10
+            retries: 20
             start_period: 10s
         depends_on:
             eurekaserver:
@@ -359,7 +372,7 @@ services:
             test: "curl --fail --silent localhost:8093/actuator/health/readiness | grep UP || exit 1"
             interval: 10s
             timeout: 5s
-            retries: 10
+            retries: 20
             start_period: 10s
         depends_on:
             eurekaserver:
@@ -388,7 +401,7 @@ services:
             service: network-deploy-service
 
     gatewayserver:
-        image: "joheiss/sb3-gatewayserver:v6"
+        image: "joheiss/sb3-gatewayserver:v7.1"
         container_name: jo_gatewayserver
         ports:
             - "8072:8072"
@@ -408,6 +421,7 @@ services:
             SPRING_DATA_REDIS_PORT: 6379
             SPRING_DATA_REDIS_TIMEOUT: 1s
             OTEL_SERVICE_NAME: gatewayserver
+            SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
         extends:
             file: common-config.yml
             service: microservice-business-services-config
