@@ -318,8 +318,8 @@ services:
     accounts:
         image: 'joheiss/sb3-accounts:v6'
         container_name: 'jo_accounts'
-        ports:
-            - '8091:8091'
+        # ports:
+        #     - '8091:8091'
         healthcheck:
           test: "curl --fail --silent localhost:8091/actuator/health/readiness | grep UP || exit 1"
           interval: 10s
@@ -342,8 +342,8 @@ services:
     loans:
         image: "joheiss/sb3-loans:v6"
         container_name: "jo_loans"
-        ports:
-            - "8092:8092"
+        # ports:
+        #     - "8092:8092"
         healthcheck:
             test: "curl --fail --silent localhost:8092/actuator/health/readiness | grep UP || exit 1"
             interval: 10s
@@ -366,8 +366,8 @@ services:
     cards:
         image: "joheiss/sb3-cards:v6"
         container_name: "jo_cards"
-        ports:
-            - "8093:8093"
+        # ports:
+        #     - "8093:8093"
         healthcheck:
             test: "curl --fail --silent localhost:8093/actuator/health/readiness | grep UP || exit 1"
             interval: 10s
