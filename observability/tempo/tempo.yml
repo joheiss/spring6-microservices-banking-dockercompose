@@ -1,12 +1,12 @@
 server:
   http_listen_port: 3100
 
-# distributor:
-receivers:
-  otlp:
-    protocols:
-      grpc:
-      http:
+distributor:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+        http:
 
 ingester:
   trace_idle_period: 10s
