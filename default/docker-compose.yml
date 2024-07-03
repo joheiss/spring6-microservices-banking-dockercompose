@@ -327,7 +327,7 @@ services:
           retries: 20
           start_period: 10s
         depends_on:
-            configerver:
+            configserver:
                 condition: service_healthy
             eurekaserver:
                 condition: service_healthy
