@@ -316,7 +316,7 @@ services:
             service: microservice-eureka-config
 
     accounts:
-        image: 'joheiss/sb3-accounts:v6'
+        image: 'joheiss/sb3-accounts:v8.1'
         container_name: 'jo_accounts'
         # ports:
         #     - '8091:8091'
@@ -327,9 +327,13 @@ services:
           retries: 20
           start_period: 10s
         depends_on:
+            configerver:
+                condition: service_healthy
             eurekaserver:
                 condition: service_healthy
             accountsdb:
+                condition: service_healthy
+            rabbit:
                 condition: service_healthy
         environment:
             SPRING_APPLICATION_NAME: accounts
@@ -396,6 +400,18 @@ services:
             test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
             timeout: 10s
             retries: 10
+        extends:
+            file: common-config.yml
+            service: network-deploy-service
+
+    messaging:
+        image: "joheiss/sb3-messaging:v8.1"
+        container_name: jo_messaging
+        depends_on:
+            rabbit:
+                condition: service_healthy
+        environment:
+            SPRING_RABBITMQ_HOST: "rabbit"
         extends:
             file: common-config.yml
             service: network-deploy-service
