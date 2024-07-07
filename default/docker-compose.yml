@@ -337,7 +337,7 @@ services:
             service: microservice-eureka-config
 
     accounts:
-        image: 'joheiss/sb3-accounts:v8.1'
+        image: 'joheiss/sb3-accounts:v8.2'
         container_name: 'jo_accounts'
         # ports:
         #     - '8091:8091'
@@ -354,8 +354,8 @@ services:
                 condition: service_healthy
             accountsdb:
                 condition: service_healthy
-            rabbit:
-                condition: service_healthy
+            # rabbit:
+            #     condition: service_healthy
         environment:
             SPRING_APPLICATION_NAME: accounts
             SPRING_DATASOURCE_URL: 'jdbc:mysql://accountsdb:3306/accountsdb'
@@ -426,11 +426,11 @@ services:
             service: network-deploy-service
 
     messaging:
-        image: "joheiss/sb3-messaging:v8.1"
+        image: "joheiss/sb3-messaging:v8.2"
         container_name: jo_messaging
-        depends_on:
-            rabbit:
-                condition: service_healthy
+        # depends_on:
+        #     rabbit:
+        #         condition: service_healthy
         environment:
             SPRING_RABBITMQ_HOST: "rabbit"
         extends:
